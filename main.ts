@@ -1,7 +1,9 @@
-input.onButtonPressed(Button.A, function () {
-    throwToggle = !(throwToggle)
+input.onButtonPressed(Button.A, function on_button_pressed_a() {
+    
+    throwToggle = !throwToggle
 })
-function _throw () {
+function _throw() {
+    
     if (primed) {
         hummingbird.setPositionServo(FourPort.One, 0)
         basic.pause(1000)
@@ -25,21 +27,32 @@ function _throw () {
         hummingbird.setPositionServo(FourPort.Four, 90)
         primed = true
     }
+    
 }
-function ready () {
+
+function ready() {
     hummingbird.setPositionServo(FourPort.One, 90)
     hummingbird.setPositionServo(FourPort.Two, 180)
     hummingbird.setPositionServo(FourPort.Three, 180)
     hummingbird.setPositionServo(FourPort.Four, 90)
 }
+
 let throwToggle = false
 let primed = false
 hummingbird.startHummingbird()
 primed = false
 throwToggle = false
+basic.clearScreen()
 ready()
-basic.forever(function () {
+basic.forever(function on_forever() {
     if (hummingbird.getSensor(SensorType.Distance, ThreePort.One) < 30 && throwToggle) {
         _throw()
     }
+    
+    if (throwToggle) {
+        basic.showIcon(IconNames.Yes)
+    } else {
+        basic.showIcon(IconNames.No)
+    }
+    
 })
